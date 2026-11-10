@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inkwell - A Blog Landing Page</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+  darkMode: "class",
+
+  theme: {
+    extend: {
+      colors: {
+        paper: "#FAFAF7",
+        card: "#FFFFFF",
+        ink: "#1A1A1A",
+        muted: "#6B6B6B",
+        line: "#E7E5E0",
+
+        night: "#111113",
+        "night-card": "#1B1B1F",
+        "night-ink": "#F2F2F0",
+        "night-muted": "#A1A1A8",
+        "night-line": "#2A2A30",
+
+        brand: {
+          DEFAULT: "#E4572E",
+          hover: "#C9431D",
+          soft: "#FCE9E3",
+          light: "#FF7A50",
+          deep: "#3A211A",
+        },
+      },
+
+      fontFamily: {
+        display: ["Fraunces", "serif"],
+        sans: ["Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+      },
+
+      borderRadius: {
+        card: "16px",
+      },
+
+      boxShadow: {
+        card: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+      },
+    },
+  },
+};
+
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+</head>
+
+<body class="bg-paper text-ink dark:bg-night dark:text-night-ink font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 bg-paper/80 dark:bg-night/80 backdrop-blur-md border-b border-line dark:border-night-line">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+
+      <a href="#" class="font-display font-bold text-xl tracking-tight">
+        Inkwell.
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#" class="hover:text-brand transition-colors">Home</a>
+        <a href="#articles" class="hover:text-brand transition-colors">Articles</a>
+        <a href="#newsletter" class="hover:text-brand transition-colors">Newsletter</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+
+        <button id="theme-toggle"
+          aria-label="Toggle theme"
+          class="w-10 h-10 rounded-full flex items-center justify-center border border-line dark:border-night-line">
+
+          <svg class="w-5 h-5 hidden dark:block text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+
+          <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+
+        <button id="menu-btn"
+          aria-label="Open menu"
+          class="md:hidden w-10 h-10 rounded-full flex items-center justify-center border border-line dark:border-night-line">
+
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+    <div id="mobile-menu"
+      class="hidden md:hidden border-t border-line dark:border-night-line bg-card dark:bg-night-card px-4 py-4 space-y-3">
+
+      <a href="#" class="block text-sm">Home</a>
+      <a href="#articles" class="block text-sm">Articles</a>
+      <a href="#newsletter" class="block text-sm">Newsletter</a>
+
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto px-4 md:px-8 pt-10 md:pt-20 pb-16 flex-grow w-full">
+
+    <!-- Hero -->
+    <section class="mb-12">
+
+      <span class="font-mono text-xs uppercase tracking-widest text-brand dark:text-brand-light block mb-3">
+        The Inkwell Journal
+      </span>
+
+      <h1 class="font-display font-bold text-4xl md:text-6xl tracking-tight leading-tight mb-4 max-w-3xl">
+        Stories, ideas and notes from writers who care.
+      </h1>
+
+      <p class="text-base md:text-lg text-muted dark:text-night-muted leading-relaxed max-w-2xl mb-8">
+        Read short articles on design, code and life. Search by title, filter by author and sort the way you like.
+      </p>
+
+      <div class="flex items-center gap-8">
+
+        <div>
+          <span id="stat-posts" class="font-display font-bold text-3xl">--</span>
+          <span class="block font-mono text-xs text-muted dark:text-night-muted uppercase tracking-widest mt-1">
+            Articles
+          </span>
+        </div>
+
+        <div class="border-l border-line dark:border-night-line pl-8">
+          <span id="stat-writers" class="font-display font-bold text-3xl">--</span>
+          <span class="block font-mono text-xs text-muted dark:text-night-muted uppercase tracking-widest mt-1">
+            Writers
+          </span>
+        </div>
+
+        <div class="border-l border-line dark:border-night-line pl-8 hidden sm:block">
+          <span class="font-display font-bold text-3xl">Weekly</span>
+          <span class="block font-mono text-xs text-muted dark:text-night-muted uppercase tracking-widest mt-1">
+            New posts
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Articles -->
+    <section id="articles" class="space-y-6">
+
+      <!-- Search and Filters -->
+      <div class="bg-card dark:bg-night-card border border-line dark:border-night-line rounded-card p-3 shadow-card grid grid-cols-1 md:grid-cols-[1fr_200px_200px] gap-3 items-center">
+
+        <div class="relative flex items-center">
+
+          <svg class="absolute left-3 w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search articles..."
+            class="w-full h-11 pl-10 pr-8 bg-paper dark:bg-night border border-line dark:border-night-line rounded-lg text-sm focus:outline-none focus:border-brand">
+
+          <button id="clear-search-btn"
+            class="absolute right-3 text-muted hover:text-brand hidden text-xs font-bold">
+            &times;
+          </button>
+
+        </div>
+
+        <select id="writer-select"
+          class="w-full h-11 px-3 bg-paper dark:bg-night border border-line dark:border-night-line rounded-lg text-sm">
+          <option value="">All writers</option>
+        </select>
+
+        <select id="sort-select"
+          class="w-full h-11 px-3 bg-paper dark:bg-night border border-line dark:border-night-line rounded-lg text-sm">
+
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="title-az">Title A-Z</option>
+          <option value="title-za">Title Z-A</option>
+
+        </select>
+
+      </div>
+
+      <!-- Results -->
+      <div class="flex items-center justify-between text-sm text-muted dark:text-night-muted px-1">
+        <span id="result-count">Showing 0 of 0 articles</span>
+
+        <button id="clear-filters-btn"
+          class="text-brand dark:text-brand-light font-medium hover:underline hidden">
+          Clear filters
+        </button>
+      </div>
+
+      <!-- Cards -->
+      <div id="articles-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <template id="skeleton-template">
+
+          <div class="bg-card dark:bg-night-card border border-line dark:border-night-line rounded-card p-5 space-y-4 animate-pulse">
+
+            <div class="h-36 bg-line dark:bg-night-line rounded-lg"></div>
+
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-line dark:bg-night-line"></div>
+              <div class="h-3 w-28 bg-line dark:bg-night-line rounded"></div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="h-5 bg-line dark:bg-night-line rounded"></div>
+              <div class="h-5 bg-line dark:bg-night-line rounded w-3/4"></div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="h-3 bg-line dark:bg-night-line rounded"></div>
+              <div class="h-3 bg-line dark:bg-night-line rounded w-5/6"></div>
+            </div>
+
+          </div>
+
+        </template>
+
+      </div>
+
+      <!-- Error -->
+      <div id="error-state" class="hidden text-center py-12 space-y-4">
+
+        <p class="text-brand dark:text-brand-light font-medium">
+          Failed to load articles from the server.
+        </p>
+
+        <button id="retry-btn"
+          class="px-5 py-2 bg-brand text-white rounded-lg hover:bg-brand-hover font-semibold text-sm">
+          Try again
+        </button>
+
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16 space-y-2">
+
+        <h3 class="font-display font-bold text-2xl">No articles found</h3>
+
+        <p class="text-muted dark:text-night-muted text-sm">
+          Try different keywords or filters.
+        </p>
+
+      </div>
+
+      <!-- Load More -->
+      <div class="text-center pt-8">
+
+        <button id="load-more-btn"
+          class="hidden px-8 py-3 bg-ink text-paper dark:bg-night-ink dark:text-night rounded-full font-semibold text-sm">
+          Load more
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter"
+      class="mt-20 bg-brand-soft dark:bg-brand-deep rounded-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 border border-line dark:border-night-line">
+
+      <div class="space-y-2 max-w-lg">
+
+        <h2 class="font-display font-bold text-3xl">
+          Get one good article every week.
+        </h2>
+
+        <p class="text-sm text-muted dark:text-night-muted">
+          No spam. Unsubscribe anytime.
+        </p>
+
+      </div>
+
+      <form id="newsletter-form" class="flex flex-col sm:flex-row w-full md:w-auto gap-3">
+
+        <input
+          type="email"
+          id="newsletter-email"
+          placeholder="Enter your email"
+          required
+          class="h-12 px-4 rounded-lg bg-card dark:bg-night-card border border-line dark:border-night-line text-sm w-full sm:w-72">
+
+        <button type="submit"
+          class="h-12 px-6 bg-brand hover:bg-brand-hover text-white rounded-lg font-semibold text-sm">
+          Subscribe
+        </button>
+
+      </form>
+
+      <p id="newsletter-message" class="hidden text-sm font-medium w-full md:w-auto"></p>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-line dark:border-night-line py-8 mt-12 bg-card dark:bg-night-card">
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-muted dark:text-night-muted gap-4">
+
+      <div>Inkwell. A final project built with HTML, Tailwind & JS.</div>
+      <div>Data source: JSONPlaceholder API</div>
+
+    </div>
+
+  </footer>
+
+  <!-- Article Modal -->
+  <div id="article-modal"
+    class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+
+    <div class="bg-card dark:bg-night-card border border-line dark:border-night-line rounded-card max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl p-6 md:p-8 space-y-6">
+
+      <button id="modal-close-btn"
+        aria-label="Close modal"
+        class="absolute top-4 right-4 w-8 h-8 rounded-full bg-line/50 dark:bg-night-line/50 flex items-center justify-center text-xl">
+        &times;
+      </button>
+
+      <div id="modal-cover"
+        class="h-36 rounded-lg flex items-end p-4 text-white font-mono text-xs">
+
+        <span id="modal-post-id" class="px-2.5 py-1 bg-black/30 rounded">
+          #0
+        </span>
+
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-muted dark:text-night-muted">
+
+        <div id="modal-author"
+          class="w-7 h-7 rounded-full bg-brand/20 text-brand font-bold flex items-center justify-center text-xs">
+          --
+        </div>
+
+        <span id="modal-writer-name" class="font-medium text-ink dark:text-night-ink">--</span>
+
+        <span>•</span>
+
+        <span id="modal-email">--</span>
+
+      </div>
+
+      <div class="space-y-4">
+
+        <h2 id="modal-title"
+          class="font-display font-bold text-2xl md:text-3xl leading-snug">
+          --
+        </h2>
+
+        <p id="modal-body"
+          class="text-base text-muted dark:text-night-muted leading-relaxed">
+          --
+        </p>
+
+      </div>
+
+      <div class="border-t border-line dark:border-night-line pt-6 space-y-4">
+
+        <h3 id="modal-comments-title" class="font-display font-bold text-lg">
+          Comments
+        </h3>
+
+        <div id="modal-comments" class="space-y-4"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <button id="back-to-top"
+    aria-label="Back to top"
+    class="fixed bottom-6 right-6 z-30 w-11 h-11 bg-brand text-white rounded-full shadow-lg flex items-center justify-center opacity-0 pointer-events-none transition-opacity">
+
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+
+  </button>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
